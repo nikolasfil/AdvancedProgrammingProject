@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class MyClassTest {
+class CalculatorTest {
 
 //	@Test
 //	void testExceptionIsThrown() {
@@ -16,7 +16,7 @@ class MyClassTest {
 
 	@Test
 	void testSub() {
-		MyClass tester = new MyClass();
+		Calculator tester = new Calculator();
 		assertEquals("POSITIVE", tester.sub(10, 5), "10 - 5 is positive");
 	}
 
