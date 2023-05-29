@@ -1,1 +1,5 @@
 /.metadata/
+**/__pycache__/*
+**/.metadata/*
+**/.vscode/*
+**/tempCodeRunnerFile.py/*
