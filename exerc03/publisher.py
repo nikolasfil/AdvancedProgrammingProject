@@ -2,29 +2,24 @@ from flask import Flask, request
 import paho.mqtt.client as mqtt
 import time
 
-messagePost = ""
 
 app = Flask(__name__)
 
 
 @app.route("/receive", methods=["POST"])
 def receive_message():
-    global messagePost
     messagePost = request.get_data(as_text=True)
     messagePost = messagePost.replace("text=", "")
-    print(messagePost)
+    print(f"Received message: {messagePost}")
 
-    client = SimpleMqttClient()
+    client = SimpleMqttClient(messagePost)
 
-    # print("Received message:", messagePost)
     return "Message received"
 
 
-# works
-
-
 class SimpleMqttClient:
-    def __init__(self):
+    def __init__(self,messagePost):
+        self.messagePost = messagePost
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
@@ -47,9 +42,7 @@ class SimpleMqttClient:
             print("mid: " + str(mid))
             client.disconnect()
 
-        # self.client.connect("test.mosquitto.org", 1883, 60)
     def publish_message(self,topic,message):
-        # self.client.publish()
         self.client.publish(topic, message)
 
     def connect(self,broker_url):
@@ -60,11 +53,10 @@ class SimpleMqttClient:
     def run_client(self):
         self.connect("test.mosquitto.org")
         topic = "grupatras/lab/engine/up1072754"
-        self.publish_message(topic,messagePost)
+        self.publish_message(topic,self.messagePost)
 
         while self.connected:
             time.sleep(1)
-
 
 
 if __name__ == "__main__":
